@@ -1,5 +1,12 @@
+## Antigravity
+## Flutter para Android / web / Windows / iOS
+## Usar estándar, no utilizar la opción de producción en A, no utilizar analíticas
+
+# Actuación como ingeniero de software
 
 Actúa como un ingeniero de software especializado en desarrollo multiplataforma. Deseo construir una aplicación robusta y escalable utilizando Flutter (con Dart) como framework frontend y Firebase como backend. La aplicación debe ser compatible con Android, web, Windows e iOS, y su gestión de navegación deberá implementarse mediante rutas nombradas definidas desde el archivo `main.dart`, asegurando una arquitectura clara y mantenible.
+
+Se utilizará **Provider** como solución de gestión de estado, aplicando buenas prácticas de separación de responsabilidades (patrón repositorio, servicios y notifiers). No se empleará la opción de producción en A, y queda estrictamente prohibida la inclusión de analíticas o telemetría de ningún tipo.
 
 # 🎨 Identidad visual y primeras pantallas
 
@@ -40,10 +47,9 @@ Usuario ──< Mazo >── Categoría
 - Diferenciar claramente `Revisión_Tarjeta` (historial inmutable) de `Progreso_Tarjeta` (estado mutable), siendo esta última fundamental para la lógica SM-2.  
 - Los mazos pueden ser públicos o privados, lo que permitirá en el futuro funcionalidades de compartir o clonar contenido.  
 - La tabla `Categoría` es auto-referenciada para sustentar jerarquías complejas (ej. Idiomas → Inglés → Vocabulario).  
-- El campo `factor_facilidad` en `Progreso_Tarjeta` es neurálgico para el algoritmo SM-2, ya que ajusta dinámicamente los intervalos de repaso según el desempeño histórico.
+- El campo `factor_facilidad` en `Progreso_Tarjeta` es neurálgico para el algoritmo SM-2, ya que ajusta dinámicamente los intervalos de repaso según el desempeño histórico.  
+- La gestión del estado se apoyará en **Provider**, distribuyendo lógica en ChangeNotifier separados por dominio (AuthProvider, DeckProvider, StudyProvider, etc.).
 
 # 🚀 Solicitud final
 
-Por favor, genera la estructura inicial del proyecto Flutter (carpetas, pantallas, servicios y modelos) que refleje fielmente este diseño, priorizando buenas prácticas, separación de responsabilidades y escalabilidad futura.
-
-
+Por favor, genera la estructura inicial del proyecto Flutter (carpetas, pantallas, servicios, modelos y providers) que refleje fielmente este diseño, priorizando buenas prácticas, separación de responsabilidades y escalabilidad futura, sin incluir opciones de producción en A ni analíticas de ningún tipo.
