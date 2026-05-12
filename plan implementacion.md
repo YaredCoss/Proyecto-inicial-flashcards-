@@ -207,7 +207,9 @@ lib/
 
 ¿Deseas ajustar algún punto del modelo, priorizar una fase específica o autorizar el inicio de la generación de código?
 
-
+##
+##
+##
 ## Prompt 
 
 Por supuesto. Aquí tienes el prompt final completamente mejorado, con los elementos solicitados al inicio y la mención explícita del provider, manteniendo el formato elegante por párrafos y los títulos con almohadillas (#).
