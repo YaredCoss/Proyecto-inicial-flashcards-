@@ -169,3 +169,62 @@ lib/
 4. Una vez aprobado, procederé a generar el código estructurado por fases, comenzando por `pubspec.yaml`, configuración de Firebase, y arquitectura base con Provider.
 
 ¿Deseas ajustar algún alcance, añadir funcionalidades específicas o proceder a la fase de codificación?
+
+
+## Prompt 
+
+## Antigravity
+## Flutter para Android / web / Windows / iOS
+## Usar estándar, no utilizar la opción de producción en A, no utilizar analíticas
+
+# Actuación como ingeniero de software
+
+Actúa como un ingeniero de software especializado en desarrollo multiplataforma. Deseo construir una aplicación robusta y escalable utilizando Flutter (con Dart) como framework frontend y Firebase como backend. La aplicación debe ser compatible con Android, web, Windows e iOS, y su gestión de navegación deberá implementarse mediante rutas nombradas definidas desde el archivo `main.dart`, asegurando una arquitectura clara y mantenible.
+
+Se utilizará **Provider** como solución de gestión de estado, aplicando buenas prácticas de separación de responsabilidades (patrón repositorio, servicios y notifiers). No se empleará la opción de producción en A, y queda estrictamente prohibida la inclusión de analíticas o telemetría de ningún tipo.
+
+# 🎨 Identidad visual y primeras pantallas
+
+La interfaz de usuario incluirá inicialmente una pantalla de autenticación (login) y otra de registro. El lenguaje visual deberá apoyarse en una paleta de colores sobria y contemporánea: fondo y barras en gris oscuro, tarjetas y texto principal en blanco, y acentos (botones, elementos interactivos) en naranja vibrante. Se valorará una tipografía limpia, una disposición elegante y un diseño cuidado que transmita profesionalismo y confianza.
+
+# 🗃️ Estructura de datos: entidades core
+
+La lógica de datos se estructurará en torno a las siguientes tablas (colecciones en Firestore), organizadas por dominios funcionales:
+
+- `Usuario`: almacena la información base del usuario (`id`, `nombre`, `email`, `contraseña`, `fecha_registro`, `configuración`).  
+- `Mazo` (Deck): representa colecciones temáticas de tarjetas (`id`, `nombre`, `descripción`, `id_usuario`, `id_categoria`, `fecha_creación`, `es_público`).  
+- `Flashcard`: cada tarjeta de estudio (`id`, `id_mazo`, `frente` (pregunta), `reverso` (respuesta), `pista`, `imagen_frente`, `imagen_reverso`, `fecha_creación`).  
+- `Categoría`: estructura jerarquizable para organizar mazos (`id`, `nombre`, `descripción`, `id_padre` — permite subcategorías).
+
+# 📚 Entidades de estudio y algoritmo SM-2
+
+- `Sesión_Estudio`: registra cada bloque de estudio (`id`, `id_usuario`, `id_mazo`, `fecha_inicio`, `fecha_fin`, `total_tarjetas_vistas`).  
+- `Revisión_Tarjeta`: historial inmutable de cada interacción con una tarjeta durante una sesión (`id`, `id_sesión`, `id_flashcard`, `calificación` (1–5 o Bien/Mal), `tiempo_respuesta_ms`).  
+- `Progreso_Tarjeta`: estado acumulado por usuario y tarjeta (`id`, `id_usuario`, `id_flashcard`, `nivel_dominio`, `fecha_última_revisión`, `fecha_próxima_revisión`, `intervalo_días`, `factor_facilidad`). Esta entidad implementa el algoritmo de repetición espaciada SM-2.
+
+# 🧩 Entidades auxiliares (opcionales pero recomendadas)
+
+- `Etiqueta` (`id`, `nombre`) y tabla pivote `Flashcard_Etiqueta` (`id_flashcard`, `id_etiqueta`) para clasificación flexible M:N.  
+- `Estadística_Mazo`: métricas consolidadas por mazo y usuario (`id_mazo`, `id_usuario`, `porcentaje_dominio`, `racha_días`, `última_sesión`).
+
+# 🔗 Diagrama de relaciones clave
+
+```
+Usuario ──< Mazo >── Categoría
+           │
+           └──< Flashcard >──< Revisión_Tarjeta >── Sesión_Estudio
+                    │
+                    └── Progreso_Tarjeta (por usuario)
+```
+
+# 📌 Puntos de diseño importantes
+
+- Diferenciar claramente `Revisión_Tarjeta` (historial inmutable) de `Progreso_Tarjeta` (estado mutable), siendo esta última fundamental para la lógica SM-2.  
+- Los mazos pueden ser públicos o privados, lo que permitirá en el futuro funcionalidades de compartir o clonar contenido.  
+- La tabla `Categoría` es auto-referenciada para sustentar jerarquías complejas (ej. Idiomas → Inglés → Vocabulario).  
+- El campo `factor_facilidad` en `Progreso_Tarjeta` es neurálgico para el algoritmo SM-2, ya que ajusta dinámicamente los intervalos de repaso según el desempeño histórico.  
+- La gestión del estado se apoyará en **Provider**, distribuyendo lógica en ChangeNotifier separados por dominio (AuthProvider, DeckProvider, StudyProvider, etc.).
+
+# 🚀 Solicitud final
+
+Por favor, genera la estructura inicial del proyecto Flutter (carpetas, pantallas, servicios, modelos y providers) que refleje fielmente este diseño, priorizando buenas prácticas, separación de responsabilidades y escalabilidad futura, sin incluir opciones de producción en A ni analíticas de ningún tipo.
